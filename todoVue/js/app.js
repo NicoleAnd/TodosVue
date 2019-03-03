@@ -1,26 +1,27 @@
 (function(Vue) {
     'use strict';
-
+    const todos = [{
+            id: 1,
+            title: "预习",
+            completed: false //未完成
+        },
+        {
+            id: 2,
+            title: "游戏",
+            completed: false
+        },
+        {
+            id: 3,
+            title: "睡觉",
+            completed: true
+        }
+    ];
     var app = new Vue({
         el: ".todoapp",
         data: {
             msg: "todos",
-            todos: [{
-                    id: 1,
-                    title: "预习",
-                    completed: false //完成
-                },
-                {
-                    id: 2,
-                    title: "游戏",
-                    completed: false
-                },
-                {
-                    id: 3,
-                    title: "睡觉",
-                    completed: true
-                }
-            ]
+            todos,
+            leftNum: todos.filter(item => !item.completed).length
         },
         methods: {
             addTodo(event) {
@@ -72,13 +73,21 @@
             removeCompleted() {
                 // console.log(123);
                 // 想办法把todos中完成的任务删除
-                for (let i = 0; i < app.todos.length; i++) {
-                    if (app.todos[i].completed) {
-                        app.todos.splice(i, 1);
-                        i--;
-                    }
-                }
-            }
+                // for (let i = 0; i < app.todos.length; i++) {
+                //     if (app.todos[i].completed) {
+                //         app.todos.splice(i, 1);
+                //         i--;
+                //     }
+                // }
+                // 另一种方法
+                // app.todos = app.todos.filter(function(item) {
+                //     return !item.completed;
+                // })
+                app.todos = app.todos.filter((item) => !item.completed);
+            },
+
+            // 未完成个数显示
+
         }
     })
 
