@@ -26,11 +26,11 @@
                     <!-- These are here just to show the structure of the list items -->
                     <!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
 					<!-- :class={类名：布尔值} 当布尔值为true，则该类生效 -->
-					<li :class="{completed:item.completed}" v-for="item of todos">
+					<li :class="{completed:item.completed}" v-for="(item,index) of todos">
                         <div class="view">
                             <input class="toggle" type="checkbox" v-model="item.completed">
                             <label>{{item.title}}</label>
-                            <button class="destroy" @click="removeTodo"></button>
+                            <button class="destroy" @click="removeTodo(index,$event)"></button>
                         </div>
                         <input class="edit" value="Create a TodoMVC template">
                     </li>
@@ -61,7 +61,7 @@
                     </li>
                 </ul>
                 <!-- Hidden if no completed items are left ↓ -->
-                <button class="clear-completed">Clear completed</button>
+                <button class="clear-completed" @click="removeCompleted">Clear completed</button>
             </footer>
         </template>
 

@@ -1,7 +1,7 @@
 (function(Vue) {
     'use strict';
 
-    new Vue({
+    var app = new Vue({
         el: ".todoapp",
         data: {
             msg: "todos",
@@ -59,7 +59,25 @@
                 //     item.completed = completed;
                 // })
                 this.todos.forEach(item => item.completed = completed);
+            },
 
+            // 删除单个任务
+            removeTodo(index, $event) {
+                // console.log(index);
+                // console.log($event);
+                this.todos.splice(index, 1);
+            },
+
+            // 删除所有的已完成的任务
+            removeCompleted() {
+                // console.log(123);
+                // 想办法把todos中完成的任务删除
+                for (let i = 0; i < app.todos.length; i++) {
+                    if (app.todos[i].completed) {
+                        app.todos.splice(i, 1);
+                        i--;
+                    }
+                }
             }
         }
     })
