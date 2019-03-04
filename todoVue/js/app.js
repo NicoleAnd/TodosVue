@@ -21,7 +21,15 @@
         data: {
             msg: "todos",
             todos,
-            leftNum: todos.filter(item => !item.completed).length
+        },
+        computed: {
+            // 定义计算属性 leftNum本质是函数 但使用的时候当属性
+            // 计算属性依赖data中数据 加入数据一变 计算属性会重新执行 但是会缓存起来
+            // 后面假如再次用到的话 直接用之前的缓存结果
+            // 未完成个数显示
+            leftNum: function() {
+                return todos.filter(item => !item.completed).length
+            }
         },
         methods: {
             addTodo(event) {
@@ -87,7 +95,10 @@
             },
 
             // 未完成个数显示
-
+            // 采用的普通方法 返回结果作用于模板 一旦视图发生改变 则该方法会被重新调用 只要绑定该方法的地方 都会执行
+            // leftNum() {
+            //     return todos.filter(item => !item.completed).length
+            // },
         }
     })
 
