@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        var person = {
+            age: 18
+        };
+        person.sex = "男";
+        person["name"] = "张三丰";
+        console.log(person);
+
+        /**
+         * // ES5 Objext.defineProperty()给对象定义属性
+        Object.defineProperty(person, "score", {
+            // value: 98 // value属性指定对象属性的值
+            // get 属性访问器 和上面的value只能取其一
+            get: function() {
+                return 99;
+            },
+            // set 属性设置器
+            set: function() {
+                console.log("set被调用");
+            }
+        });
+        console.log(person.score); // 98 访问属性
+        person.score = 100; // 设置属性 会调用set方法
+        **/
+        // 给人添加分数 分数加入<60 不允许添加
+        /**
+         * 
+        var score = 78;
+        if (score >= 60) {
+            person.score = score;
+        }
+        console.log(person);
+        **/
+        var score = 90;
+        Object.defineProperty(person, "score", {
+            set: function(score) {
+                if (score < 60) {
+                    throw new Error("你分数不及格")
+                }
+
+            },
+            get: function() {
+                return score;
+            }
+        });
+        person.score = score;
+        console.log(person);
+        console.log(person.score);
+    </script>
+</body>
+
+</html>

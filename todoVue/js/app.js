@@ -20,6 +20,8 @@
         el: ".todoapp",
         data: {
             msg: "todos",
+            currentItem: null,
+            filterStat: "all",
             todos,
         },
         computed: {
@@ -29,6 +31,16 @@
             // 未完成个数显示
             leftNum: function() {
                 return todos.filter(item => !item.completed).length
+            },
+            // 数据过滤
+            filterTodos: function() {
+                if (this.filterStat == "all") {
+                    return this.todos;
+                } else if (this.filterStat == "active") {
+                    return this.todos.filter(item => !item.completed);
+                } else {
+                    return this.todos.filter(item => item.completed);
+                }
             }
         },
         methods: {
@@ -51,10 +63,7 @@
                     });
                     // 3 清空输入框
                     event.target.value = "";
-
                 }
-
-
             },
 
             // 切换所有完成/未完成
@@ -99,7 +108,36 @@
             // leftNum() {
             //     return todos.filter(item => !item.completed).length
             // },
+
+            // 保存编辑 按回车或失去焦点
+            saveEdit(item, index, event) {
+                // 1 拿到文本框的值
+                console.log(event.target.value);
+                var editText = event.target.value.trim();
+                // 2 对文本框进行非空校验
+                if (!editText.length) {
+                    // 从todos数组中删除该元素
+                    return this.todos.splice(index, 1);
+                }
+                // 假如文本框不是空
+                item.title = editText;
+
+                // 优化
+                // !editText.length?this.todos.splice(index,1):item.title = editText;
+                // 3 去除editing样式
+                this.currentItem = null;
+            },
+
+
         }
-    })
+    });
+    // 点击显示all active completed
+    window.onhashchange = function() {
+            var hash = window.location.hash.substring(2) || "all";
+            console.log(hash);
+            app.filterStat = hash;
+        }
+        // 刷新重新默认 已点击的active 或 completed
+    window.onhashchange();
 
 })(Vue);

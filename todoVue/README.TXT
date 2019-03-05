@@ -24,3 +24,14 @@
   # 删除所有已完成任务
 
   # 显示所有未完成任务数  
+
+  计算属性
+      computed:{
+         leftNum: function(){
+            // 本质方法
+         }
+      }
+      // 当属性调用 原生js支持语法
+      {{leftNum}} // 计算属性 依赖data中的数据进行缓存
+      
+      {{leftNum()}} // methods 定义的普通方法
