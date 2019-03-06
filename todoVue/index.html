@@ -28,7 +28,7 @@
 					<!-- :class={类名：布尔值} 当布尔值为true，则该类生效 -->
 					<li :class="{completed:item.completed,editing:currentItem==item}" v-for="(item,index) of filterTodos">
                         <div class="view">
-                            <input class="toggle" type="checkbox" v-model="item.completed">
+                            <input class="toggle" @click="toggle(item,$event)" type="checkbox" v-model="item.completed">
                             <label @dblclick="currentItem=item">{{item.title}}</label>
                             <button class="destroy" @click="removeTodo(index,$event)"></button>
                         </div>
@@ -44,13 +44,13 @@
                 <!-- Remove this if you don't implement routing -->
                 <ul class="filters">
                     <li>
-                        <a class="selected" href="#/">All</a>
+                        <a :class="{selected:filterStat==='all'}" href="#/">All</a>
                     </li>
                     <li>
-                        <a href="#/active">Active</a>
+                        <a :class="{selected:filterStat==='active'}" href="#/active">Active</a>
                     </li>
                     <li>
-                        <a href="#/completed">Completed</a>
+                        <a :class="{selected:filterStat==='completed'}" href="#/completed">Completed</a>
                     </li>
                 </ul>
                 <!-- Hidden if no completed items are left ↓ -->

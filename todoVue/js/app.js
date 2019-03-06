@@ -128,6 +128,17 @@
                 this.currentItem = null;
             },
 
+            // 全选联动效果
+            toggle(item, event) {
+                console.log(event.target.checked); //dom元素的状态
+                console.log(item.completed);
+                // 遍历todos
+                var bool = this.todos.every(function(item) {
+                    return item.completed;
+                });
+                console.log(bool);
+                // some方法 只要有一个为真 结果是真
+            }
 
         }
     });
