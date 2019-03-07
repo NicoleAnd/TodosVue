@@ -1,5 +1,35 @@
+;
 (function(Vue) {
-    'use strict';
+    // 注册一个全局自定义指令 `v-focus`
+    // 什么时候使用自定义指令：需要进行底层DOM操作的时候
+    // 定义指令的时候 不要加v-前缀
+    Vue.directive('focus', {
+        // 当被绑定的元素插入到DOM中时....
+        inserted: function(el) {
+            // 聚焦元素
+            console.log(el);
+            el.focus()
+        }
+    });
+    Vue.directive('auto-active', {
+        // 当被绑定的元素插入到DOM中时....
+        inserted: function(el) {
+            // 聚焦元素
+            console.log(el);
+            var links = el.getElementsByTagName("a");
+            links = Array.from(links);
+            links.forEach(function(link) {
+                link.onclick = function() {
+                    console.log(this);
+                    links.forEach(function(link) {
+                        link.className = "";
+                    });
+                    this.className = "selected";
+                }
+            });
+
+        }
+    });
     const todos = [{
             id: 1,
             title: "预习",
@@ -16,15 +46,19 @@
             completed: true
         }
     ];
-    var app = new Vue({
+    var app = window.app = new Vue({
         el: ".todoapp",
         data: {
             msg: "todos",
+            toggleStat: true,
             currentItem: null,
             filterStat: "all",
             todos,
         },
         computed: {
+            toggleAllStat: function() {
+                return this.todos.every(item => item.completed);
+            },
             // 定义计算属性 leftNum本质是函数 但使用的时候当属性
             // 计算属性依赖data中数据 加入数据一变 计算属性会重新执行 但是会缓存起来
             // 后面假如再次用到的话 直接用之前的缓存结果
@@ -132,23 +166,31 @@
             toggle(item, event) {
                 console.log(event.target.checked); //dom元素的状态
                 console.log(item.completed);
-                // 遍历todos
-                var bool = this.todos.every(function(item) {
-                    return item.completed;
+
+                Vue.nextTick(() => {
+                    // 遍历todos
+                    var bool = this.todos.every(function(item) {
+                        return item.completed;
+                    });
+                    console.log(bool);
+                    this.toggleStat = bool;
                 });
-                console.log(bool);
+
+
                 // some方法 只要有一个为真 结果是真
             }
 
         }
     });
-    // 点击显示all active completed
-    window.onhashchange = function() {
-            var hash = window.location.hash.substring(2) || "all";
-            console.log(hash);
-            app.filterStat = hash;
-        }
-        // 刷新重新默认 已点击的active 或 completed
-    window.onhashchange();
+
 
 })(Vue);
+
+// 点击显示all active completed
+window.onhashchange = function() {
+        var hash = window.location.hash.substring(2) || "all";
+        console.log(hash);
+        app.filterStat = hash;
+    }
+    // 刷新重新默认 已点击的active 或 completed
+window.onhashchange();
