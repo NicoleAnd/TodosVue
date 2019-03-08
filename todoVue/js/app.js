@@ -88,8 +88,8 @@
                         return;
                     }
                     // 2 把用户的任务添加到todos数组中
-                    var id = this.todos[this.todos.length - 1].id + 1;
-                    console.log(id);
+                    var lastTodo = this.todos[this.todos.length - 1];
+                    var id = lastTodo ? lastTodo.id + 1 : 1;
                     this.todos.push({
                         id,
                         title,
@@ -180,9 +180,39 @@
                 // some方法 只要有一个为真 结果是真
             }
 
+        },
+        // 自定义局部指令
+        directives: {
+            // 指令名称 可以驼峰式命名/ 也可以为字符串 使用指令统一用v-editing-focus
+            // "editing-focus": {
+            editingFocus: {
+                // // 钩子函数
+                // // 找不到父元素
+                // bind: function(el) {
+                //     console.log("bind");
+                //     console.log(el.parentElement);
+                // },
+                // // 能找到父元素
+                // inserted: function(el) {
+                //     console.log(el);
+                //     console.log("inserted");
+                // },
+                update: function(el, binding) {
+                    // console.log(binding.value);
+                    if (binding.value) {
+                        // console.log(el);
+                        el.focus();
+                    }
+                },
+                // componentUpdated: function() {
+                //     console.log("componentUpdated");
+                // },
+                // unbind: function() {
+                //     console.log("unbind");
+                // }
+            }
         }
     });
-
 
 })(Vue);
 

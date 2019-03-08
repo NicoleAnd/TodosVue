@@ -32,7 +32,7 @@
                             <label @dblclick="currentItem=item">{{item.title}}</label>
                             <button class="destroy" @click="removeTodo(index,$event)"></button>
                         </div>
-                        <input class="edit" @keyup.esc="currentItem=null" @keyup.enter="saveEdit(item,index,$event)" @blur="saveEdit(item,index,$event)" :value="item.title">
+                        <input class="edit" v-editing-focus="item===currentItem" @keyup.esc="currentItem=null" @keyup.enter="saveEdit(item,index,$event)" @blur="saveEdit(item,index,$event)" :value="item.title">
                     </li>
                 </ul>
             </section>
